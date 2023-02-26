@@ -1,4 +1,4 @@
-function homeBanking() {
+function iniciarHomeBanking() {
     let nombreUsuario = prompt("Bienvenido a Banco Coder. \n\nPor favor, ingrese su nombre de usuario: \n\n")
     let idUsuario = prompt("Por favor, ingrese su ID de usuario: \n\n")
     let saldoInicial = parseFloat("123424")
@@ -6,7 +6,7 @@ function homeBanking() {
 
     if ((nombreUsuario == "" || idUsuario == "") || (nombreUsuario == null || idUsuario == null)) {
         alert("Debés completar ambos campos.")
-        homeBanking();
+        iniciarHomeBanking()
     } else {
         for (let i = 0; i < 5; i++) {
             function seleccionarOperacion() {
@@ -42,13 +42,14 @@ function homeBanking() {
                 }
                 else if (operacion == 4) {
                     alert("Has cerrado sesión correctamente. Hasta pronto " + nombreUsuario + ".")
+                    iniciarHomeBanking()
 
                 }
                 else {
                     alert("Opción incorrecta, volvé a intentarlo.")
                 }
             }
-            seleccionarOperacion();
+            seleccionarOperacion()
         }
     }
 }
