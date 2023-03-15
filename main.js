@@ -2,8 +2,29 @@ function iniciarHomeBanking() {
     let nombreUsuario = prompt("Bienvenido a Banco Coder. \n\nPor favor, ingrese su nombre de usuario: \n\n")
     let idUsuario = prompt("Por favor, ingrese su ID de usuario: \n\n")
     let saldoInicial = parseFloat("123424")
-    console.log(idUsuario + nombreUsuario)
 
+// Utilizo un constructor para crear los distintos tipos de cuentas
+    class tipoDeCuenta {
+        constructor(nombre, moneda, saldo) {
+            this.nombre = nombre;
+            this.moneda = moneda;
+            this.saldo = saldo;
+        }
+    }
+
+// Creo los distintos tipos de cuentas 
+    const cajaDeAhorroPesos = new tipoDeCuenta ("Caja de Ahorro en $", "$", 500000);
+    const cuentaCorrientePesos = new tipoDeCuenta ("Cuenta Corriente en $", "$", 150000);
+    const cajaDeAhorroDolares = new tipoDeCuenta ("Caja de Ahorro en U$D", "U$D", 5000);
+    const cuentaCorrienteDolares = new tipoDeCuenta ("Cuenta Corriente en U$D", "U$D", 2500);
+
+
+// Creo un array con el listado de cuentas
+
+const arrayCuentas = [cajaDeAhorroPesos, cajaDeAhorroDolares, cuentaCorrientePesos, cuentaCorrienteDolares]
+
+console.log(arrayCuentas);
+// Empieza el simulador de Home Banking
     if ((nombreUsuario == "" || idUsuario == "") || (nombreUsuario == null || idUsuario == null)) {
         alert("Debés completar ambos campos.")
         iniciarHomeBanking()
@@ -21,7 +42,23 @@ function iniciarHomeBanking() {
 
 
                 if (operacion == 1) {
-                    alert("Su saldo es de: $" + saldoInicial)
+                    let seleccionarCuenta = prompt(`Seleccionar tipo de cuenta:  \n1) ${cajaDeAhorroPesos.nombre} \n2) ${cajaDeAhorroDolares.nombre} \n3) ${cuentaCorrientePesos.nombre} \n4) ${cuentaCorrienteDolares.nombre}`); 
+                    switch (seleccionarCuenta) {
+                        case '1':
+                            alert(`Su saldo es de: ${cajaDeAhorroPesos.moneda}${cajaDeAhorroPesos.saldo}`)
+                            break;
+                        case '2':
+                            alert(`Su saldo es de: ${cajaDeAhorroDolares.moneda}${cajaDeAhorroDolares.saldo}`)
+                            break;
+                        case '3':
+                            alert(`Su saldo es de: ${cuentaCorrientePesos.moneda}${cuentaCorrientePesos.saldo}`)
+                            break;
+                        case '4':
+                            alert(`Su saldo es de: ${cuentaCorrienteDolares.moneda}${cuentaCorrienteDolares.saldo}`)
+                            break;
+                        default:
+                          alert('Ingrese una opción numérica válida.');
+                      }
                 }
 
                 else if (operacion == 2) {
