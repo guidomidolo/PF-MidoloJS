@@ -25,7 +25,13 @@ const arrayMonedas = arrayCuentas.map(cuenta => cuenta.moneda);
 // Creo un nuevo array teniendo en cuenta solo el nombre
 const arrayNombres = arrayCuentas.map(cuenta => cuenta.nombre);
 
+// Función para reiniciar el proceso 
+function startOver(){
+    //Resetear el formulario:
+    formularioLogin.reset();
+    iniciarSimulador();
 
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Empieza el simulador de Home Banking
@@ -96,10 +102,10 @@ let arrayLS = JSON.parse(localStorage.getItem('arrayClientes'));
                                         <h4 class="pb-4">Bienvenido, ${JSON.stringify(arrayLS)} </h4>
                                         <h4 class="pb-4">¿QUÉ OPERACIÓN DESEÁS REALIZAR?</h4>
                                         <p>  <button type="button" class="btn btn-outline-secondary" onclick="consultarSaldo();">1 - Consulta de saldo</button></p>
-                                        <p>  <button type="button" class="btn btn-outline-secondary">2 - Extracción de efectivo en Caja de Ahorro $</button></p>
-                                        <p><button type="button" class="btn btn-outline-secondary">3 - Depósito en Caja de Ahorro $</button></p>
-                                        <p><button type="button" class="btn btn-outline-secondary">4 - Últimos movimientos</button></p>
-                                        <p><button type="button" class="btn btn-outline-secondary" onclick="iniciarSimulador();">5 - Finalizar sesión</button></p>
+                                        <p>  <button type="button" class="btn btn-outline-secondary disabled">2 - Extracción de efectivo en Caja de Ahorro $</button></p>
+                                        <p><button type="button" class="btn btn-outline-secondary disabled">3 - Depósito en Caja de Ahorro $</button></p>
+                                        <p><button type="button" class="btn btn-outline-secondary disabled">4 - Últimos movimientos</button></p>
+                                        <p><button type="button" class="btn btn-outline-secondary" onclick="startOver();">5 - Finalizar sesión</button></p>
                                     </div>
                                 </div>`
 })
@@ -119,15 +125,6 @@ function consultarSaldo() {
                             </div>`
     
 }
-
-
-
-
-
-    // //Resetear el formulario:
-    // formularioLogin.reset();
-
-
 
 
 
