@@ -13,8 +13,21 @@ const cuentaCorrientePesos = new tipoDeCuenta("Cuenta Corriente en $", "$", 1500
 const cajaDeAhorroDolares = new tipoDeCuenta("Caja de Ahorro en U$D", "U$D", 5000);
 const cuentaCorrienteDolares = new tipoDeCuenta("Cuenta Corriente en U$D", "U$D", 0);
 
+
 // Creo un array con el listado de cuentas
 const arrayCuentas = [cajaDeAhorroPesos, cajaDeAhorroDolares, cuentaCorrientePesos, cuentaCorrienteDolares]
+
+// Guardo el array de cuentas en el LocalStorage
+function guardarCuentasLS(arrayCuentas) {
+    localStorage.setItem("cuentas", JSON.stringify(arrayCuentas));
+}
+
+function cargarCuentasLS() {
+    return JSON.parse(localStorage.getItem("cuentas")) || [];
+}
+
+guardarCuentasLS(arrayCuentas);
+
 
 // Creo un nuevo array teniendo en cuenta solo el valor numérico (saldo)
 const arraySaldos = arrayCuentas.map(cuenta => cuenta.saldo);
@@ -35,6 +48,8 @@ function startOver(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Empieza el simulador de Home Banking
+
+// Modelo el HTML via DOM > creo login
 function iniciarSimulador(){
     const mainContainer = document.getElementById("mainContainer");
 mainContainer.innerHTML = `<div class="column mt-5">
@@ -60,9 +75,26 @@ mainContainer.innerHTML = `<div class="column mt-5">
                             </div>`
 }
 
+// Modelo el HTML via DOM > creo menu de opciones
+function opcionesMenu(){
+    document.getElementById("mainContainer").innerHTML =
+    `   <div class="column mt-5">
+            <div class="d-grid gap-1 col-6 mx-auto mb-4 text-center">
+                <h4 class="pb-4">Bienvenido.</h4>
+                <h4 class="pb-4">¿QUÉ OPERACIÓN DESEÁS REALIZAR?</h4>
+                <p>  <button type="button" class="btn btn-outline-secondary" onclick="consultarSaldo();">1 - Consulta de saldo</button></p>
+                <p>  <button type="button" class="btn btn-outline-secondary disabled">2 - Extracción de efectivo en Caja de Ahorro $</button></p>
+                <p><button type="button" class="btn btn-outline-secondary disabled">3 - Depósito en Caja de Ahorro $</button></p>
+                <p><button type="button" class="btn btn-outline-secondary disabled">4 - Últimos movimientos</button></p>
+                <p><button type="button" class="btn btn-outline-secondary" onclick="startOver();">5 - Finalizar sesión</button></p>
+            </div>
+        </div>`
+}
+
+iniciarSimulador();
+
 
 //Voy a crear una clase que se denomine cliente para instanciar objetos, que voy a tomar del formulario.
-iniciarSimulador();
 class Cliente {
     constructor(nombreCliente,idCliente){
         this.nombreCliente=nombreCliente;
@@ -86,43 +118,47 @@ const nombre = document.getElementById("nombreCliente");
 // Crear el objeto cliente:
 
 const clienteNuevo = new Cliente (nombre.value);
-
-
 arrayClientes.push(clienteNuevo);
-console.log(arrayClientes);
 
-localStorage.setItem('arrayClientes', JSON.stringify(arrayClientes));
-let arrayLS = JSON.parse(localStorage.getItem('arrayClientes'));
-
-
-// Modelo el HTML via DOM > creo menu de opciones
-    mainContainer.innerHTML =
-                            `   <div class="column mt-5">
-                                    <div class="d-grid gap-1 col-6 mx-auto mb-4 text-center">
-                                        <h4 class="pb-4">Bienvenido, ${JSON.stringify(arrayLS)} </h4>
-                                        <h4 class="pb-4">¿QUÉ OPERACIÓN DESEÁS REALIZAR?</h4>
-                                        <p>  <button type="button" class="btn btn-outline-secondary" onclick="consultarSaldo();">1 - Consulta de saldo</button></p>
-                                        <p>  <button type="button" class="btn btn-outline-secondary disabled">2 - Extracción de efectivo en Caja de Ahorro $</button></p>
-                                        <p><button type="button" class="btn btn-outline-secondary disabled">3 - Depósito en Caja de Ahorro $</button></p>
-                                        <p><button type="button" class="btn btn-outline-secondary disabled">4 - Últimos movimientos</button></p>
-                                        <p><button type="button" class="btn btn-outline-secondary" onclick="startOver();">5 - Finalizar sesión</button></p>
-                                    </div>
-                                </div>`
+opcionesMenu();
 })
 
 // Creo función para consultar el saldo
 function consultarSaldo() {
-    mainContainer.innerHTML =
-                            `   <div class="column mt-5">
-                                    <div class="d-grid gap-1 col-6 mx-auto mb-4 text-center">
-                                        <h4 class="pb-4">Consulta de saldos</h4>
-                                        <p>${arrayNombres[0]}: ${arrayMonedas[0]}${arraySaldos[0]}</p>
-                                        <p>${arrayNombres[1]}: ${arrayMonedas[1]}${arraySaldos[1]}</p>
-                                        <p>${arrayNombres[2]}: ${arrayMonedas[2]}${arraySaldos[2]}</p>
-                                        <p>${arrayNombres[3]}: ${arrayMonedas[3]}${arraySaldos[3]}</p>
-                                        <p><button type="button" class="btn btn-outline-secondary" onclick="iniciarSimulador();">Volver al menú anterior</button></p>
-                                    </div>
-                            </div>`
+    const cuentas = cargarCuentasLS(); //4 cuentas
+    let crearLinea = "";
+    
+    for (cuenta of cuentas) {
+        crearLinea += `   <div class="column mt-5">
+                            <div class="d-grid gap-1 col-6 mx-auto mb-4">
+                                <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tipo de Cuenta</th>
+                                    <th scope="col">Moneda</th>
+                                    <th scope="col">Saldo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>${cuenta.nombre}</td>
+                                    <td>${cuenta.moneda}</td>
+                                    <td>${cuenta.saldo}</td>
+                                    
+                                </tr>
+                                </tbody>
+                                </table>  
+                            </div>
+    </div>`;
+    }
+
+    document.getElementById("mainContainer").innerHTML = `<div class="column mt-5">
+    <div class="d-grid gap-1 col-6 mx-auto mb-4 text-center"><h3>Consulta de saldos</h3></div></div> ${crearLinea}                             <div class="d-grid gap-1 col-6 mx-auto mb-4">
+    <button class="btn btn-dark" onclick="opcionesMenu();">Volver al menú anterior</button>
+    </div>`;
+
     
 }
 
