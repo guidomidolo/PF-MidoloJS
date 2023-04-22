@@ -1,0 +1,22 @@
+[
+    {
+      "nombre": "Caja de Ahorro en $",
+      "moneda": "$",
+      "saldo": 500000
+    },
+    {
+      "nombre": "Cuenta Corriente en $",
+      "moneda": "$",
+      "saldo": 150000
+    },
+    {
+      "nombre": "Caja de Ahorro en U$D",
+      "moneda": "U$D",
+      "saldo": 5000
+    },
+    {
+      "nombre": "Cuenta Corriente en U$D",
+      "moneda": "U$D",
+      "saldo": 0
+    }
+  ]

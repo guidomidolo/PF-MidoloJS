@@ -184,64 +184,125 @@ function consultarSaldo() {
     
 }
 
-function mostrarFormulario(){
-    document.getElementById("mainContainer").innerHTML = `
-        <div class="column mt-5 mb-5">                              
-            <form id="formularioExtraccion">
-                <div class="text-center mb-5">
-                    <h1>Extracción de caja de ahorro en $</h1>
-                    <h3>Ingrese el monto que desea extraer y presione el botón "Extraer".</h3>
-                </div>
-                <div class="d-grid gap-1 col-6 mx-auto mb-4">
-                    <label for="montoAExtraer" class="form-label">Monto a extraer:</label>
-                    <input type="number" class="form-control" id="montoAExtraer" placeholder="Ejemplo: 1000" required>
-                </div>
-                <div class="col-mb-3">
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <button class="btn btn-primary btn-dark" id="extraerBtn">Extraer</button>
-                        <button class="btn btn-dark" onclick="opcionesMenu();">Volver al menú anterior</button>
-                    </div>
-                </div>
-            </form>
-        </div>`;
+function mostrarFormulario() {
+    mainContainer.innerHTML = `<div class="column mt-5 mb-5">                              
+        <form id="formularioLogin">
+            <div class="text-center mb-5">
+                <h3>Extracción en Caja de Ahorro en $.</h3>
+                <h5>Ingrese el monto solicitado.</h5>
+            </div>
 
-    // Escuchar el evento de clic en el botón "Extraer" y llamar a la función correspondiente
-    const extraerBtn = document.getElementById("extraerBtn");
-    extraerBtn.addEventListener("click", extraerCajaAhorro);
+            <div class="d-grid gap-1 col-6 mx-auto mb-5">
+                <input type="number" class="form-control" id="montoExtraccion" placeholder="Ejemplo: 5819238" required>
+            </div>
+            <div class="col-mb-3">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn btn-primary btn-dark" onclick="confirmarExtraccion();">Confirmar extracción</button>
+                <button class="mt-3 btn btn-dark" onclick="opcionesMenu();">Volver al menú anterior</button>
+                </div>
+            </div>
+        </form>
+    </div>`
 }
-
-// Función para extraer dinero de la caja de ahorro en $
-function extraerCajaAhorro(event) {
-    event.preventDefault(); // Detener la acción predeterminada del botón en el formulario
-
-    const montoAExtraer = parseInt(document.getElementById("montoAExtraer").value);
-
-    // Validar que el monto a extraer no sea mayor que el saldo disponible
-    if (montoAExtraer > cajaDeAhorroPesos.saldo) {
-        Swal.fire({
-            title: "Error",
-            text: "No puede extraer un monto mayor al saldo disponible en la cuenta.",
-            icon: "error",
-            confirmButtonText: "Entendido",
-        });
-
-    } else if (montoAExtraer === 0) {
-        Swal.fire({
-            title: "Error",
-            text: "No es posible extraer monto 0.",
-            icon: "error",
-            confirmButtonText: "Entendido",
-        });
+  
+  function confirmarExtraccion() {
+    e.preventDefault();
+    // Obtener el valor ingresado en el input y convertirlo a un número
+    const cantidadRetiro = Number(document.querySelector('input').value);
     
-    } else {
-        cajaDeAhorroPesos.saldo -= montoAExtraer;
-        guardarCuentasLS(arrayCuentas);
-        Swal.fire({
-            title: "¡Listo!",
-            text: `Ha extraído ${cajaDeAhorroPesos.moneda}${montoAExtraer} de su ${cajaDeAhorroPesos.nombre}. Su saldo actualizado es ${cajaDeAhorroPesos.moneda}${cajaDeAhorroPesos.saldo}.`,
-            icon: "success",
-            confirmButtonText: "Entendido",
-        });
-    }
+    // Calcular el saldo disponible después de la extracción
+    const saldoActual = 111500;
+    const saldoDisponible = saldoActual - cantidadRetiro;
+    
+  // Obtener el elemento p para mostrar el saldo disponible y actualizar su contenido
+  const pSaldoDisponible = document.getElementById("saldoDisponible");
+  pSaldoDisponible.textContent = `Saldo disponible: $${saldoDisponible}`;
+  
+  mainContainer.innerHTML = `<div class="column mt-5 mb-5">                              
+  <form id="formularioLogin">
+      <div class="col-mb-3">
+          <div class="d-grid gap-2 col-6 mx-auto">
+          <button class="btn btn-primary btn-dark" onclick="confirmarExtraccion();">Confirmar extracción</button>
+          <button class="mt-3 btn btn-dark" onclick="opcionesMenu();">Volver al menú anterior</button>
+          <p id="saldoDisponible"></p> <!-- Agrega un elemento p para mostrar el saldo disponible -->
+          </div>
+      </div>
+  </form>
+</div>`
 }
 
+
+//     if ((formularioLogin.nombre == "" || formularioLogin.identificacion == "") || (formularioLogin.nombre == null || formularioLogin.identificacion == null)) {
+//         alert("Debés completar ambos campos.")
+//     } else {
+//         for (let i = 0; i < 100; i++) {
+//             function seleccionarOperacion() {
+//                 let operacion = prompt(`Bienvenido, ${nombreCliente}. \nID #${idCliente}\n
+// ====================================
+// === ¿QUÉ OPERACIÓN DESEÁS REALIZAR? ===
+// 1 - Consulta de saldo
+// 2 - Extracción de efectivo en Caja de Ahorro $
+// 3 - Depósito en Caja de Ahorro $
+// 4 - Últimos movimientos
+// 5 - Finalizar sesión
+// ====================================\n\n`)}}} 
+
+
+//                 if (operacion == 1) {
+//                     let seleccionarCuenta = prompt(`Seleccionar tipo de cuenta:  \n1) ${arrayNombres[0]} \n2) ${arrayNombres[1]} \n3) ${arrayNombres[2]} \n4) ${arrayNombres[3]}`);
+//                     switch (seleccionarCuenta) {
+//                         case '1':
+//                             alert(`Su saldo es de: ${arrayMonedas[0]}${arraySaldos[0]}`)
+//                             break;
+//                         case '2':
+//                             alert(`Su saldo es de: ${arrayMonedas[1]}${arraySaldos[1]}`)
+//                             break;
+//                         case '3':
+//                             alert(`Su saldo es de: ${arrayMonedas[2]}${arraySaldos[2]}`)
+//                             break;
+//                         case '4':
+//                             alert(`Su saldo es de: ${arrayMonedas[3]}${arraySaldos[3]}`)
+//                             break;
+//                         default:
+//                             alert('Ingrese una opción numérica válida.');
+//                     }
+//                 }
+
+
+//                 else if (operacion == 2) {
+//                     let montoExtraccion = parseFloat(prompt("¿Qué importe deseas retirar?"))
+//                     if (montoExtraccion <= arraySaldos[0]) {
+//                         alert(`Retiraste $${montoExtraccion} de tu ${arrayNombres[0]}.\nTu nuevo saldo ahora es de $${arraySaldos[0] - montoExtraccion}`)
+//                         arraySaldos[0] = arraySaldos[0] - montoExtraccion
+//                         arrayOperacionesRelizadas.push(' Extracción');
+//                         console.log(arrayOperacionesRelizadas);
+//                     }
+//                     else {
+//                         alert(`Tu saldo no es suficiente para retirar ese importe. \nEl límite máximo de extracción es $${arraySaldos[0]}`)
+//                     }
+
+//                 }
+//                 else if (operacion == 3) {
+//                     let montoDeposito = parseFloat(prompt("¿Qué importe deseas depositar?"))
+//                     alert(`Hiciste un depósito de $ ${montoDeposito} en tu ${arrayNombres[0]}.\nTu nuevo saldo ahora es de $${arraySaldos[0] + montoDeposito}`)
+//                     arraySaldos[0] = arraySaldos[0] + montoDeposito
+//                     arrayOperacionesRelizadas.push(' Depósito');
+//                         console.log(arrayOperacionesRelizadas);
+                        
+//                 }
+//                 else if (operacion == 4) {
+//                     alert(arrayOperacionesRelizadas);                
+//                 }
+//                 else if (operacion == 5) {
+//                     alert(`Has cerrado sesión correctamente. Hasta pronto ${nombreUsuario}.`)
+//                     localStorage.clear();
+//                     iniciarHomeBanking()
+
+//                 }                
+//                 else {
+//                     alert("Opción incorrecta, volvé a intentarlo.")
+//                 }
+//             }
+//             seleccionarOperacion()
+//         }
+//     }
